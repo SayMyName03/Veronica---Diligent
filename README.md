@@ -1,4 +1,4 @@
-# VERONICA 🤖 – Local Document Q&A Assistant
+# VERONICA 🤖 – Your Smart Marvel-esque assistant
 
 VERONICA is a local, privacy-first AI assistant that answers questions about your own documents (PDF/DOCX). It runs a local LLM via Ollama and uses Pinecone for fast semantic retrieval.
 
