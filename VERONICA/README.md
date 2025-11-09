@@ -1,33 +1,33 @@
-# AI Assistant - NoteMate 🤖
+# VERONICA 🤖 – Local Document Q&A Assistant
 
-A Jarvis-like AI assistant that can process PDF and DOCX documents and answer questions about their content using LangChain, Pinecone, and a local LLM (Ollama).
+VERONICA is a local, privacy-first AI assistant that answers questions about your own documents (PDF/DOCX). It runs a local LLM via Ollama and uses Pinecone for fast semantic retrieval.
 
 ## Features
 
-- 📄 **Document Processing**: Upload and process PDF and DOCX files
-- 🧠 **Local LLM**: Uses Ollama for unlimited, cost-free AI interactions
-- 💾 **Vector Storage**: Pinecone for efficient document retrieval
-- 💬 **Conversational AI**: Maintains context across multiple questions
-- 📚 **Source Citations**: Shows which parts of documents were used to answer
-- 🚀 **No Token Limits**: Run unlimited queries with local LLM
+- 📄 PDF & DOCX ingestion
+- 🧠 Local LLM via Ollama (no API costs)
+- 💾 Pinecone vector search for relevant snippets
+- 💬 Conversational answers grounded in your docs
+- 📚 Source citations for transparency
+- � No hardcoded secrets; configure with `.env`
 
 ## Tech Stack
 
-- **LangChain**: Document processing and conversational chains
-- **Pinecone**: Vector database for document embeddings
-- **Ollama**: Local LLM (Llama 2, Mistral, etc.)
-- **Streamlit**: Web interface
-- **HuggingFace**: Embeddings model
+- LangChain (document processing + chains)
+- Pinecone (vector database)
+- Ollama (local LLM)
+- Streamlit (UI)
+- HuggingFace sentence-transformers (embeddings)
 
 ## Prerequisites
 
-1. **Python 3.8+**
-2. **Ollama** - Download from [https://ollama.ai](https://ollama.ai)
-3. **Pinecone Account** - Sign up at [https://www.pinecone.io](https://www.pinecone.io)
+1. Python 3.10+ recommended
+2. Ollama installed: https://ollama.ai
+3. Pinecone account: https://www.pinecone.io
 
 ## Installation
 
-### Step 1: Install Ollama
+### 1) Install Ollama
 
 ```powershell
 # Download and install Ollama from https://ollama.ai
@@ -37,37 +37,43 @@ ollama pull llama2
 ollama pull mistral
 ```
 
-### Step 2: Set Up Python Environment
+### 2) Set up Python environment (Windows PowerShell)
 
 ```powershell
 # Create virtual environment
-python -m venv venv
+python -m venv .venv
 
 # Activate virtual environment
-.\venv\Scripts\Activate.ps1
+./.venv/Scripts/Activate.ps1
 
 # Install dependencies
 pip install -r requirements.txt
 ```
 
-### Step 3: Configure Environment Variables
+### 3) Configure environment variables
 
 1. Copy `.env.example` to `.env`:
    ```powershell
    Copy-Item .env.example .env
    ```
 
-2. Edit `.env` and add your Pinecone credentials:
+2. Edit `.env` and add your settings (example):
    ```
-   PINECONE_API_KEY=your_actual_api_key
-   PINECONE_ENVIRONMENT=your_pinecone_environment
-   PINECONE_INDEX_NAME=notemate-index
+   # Pinecone
+   PINECONE_API_KEY=your_api_key_here
+   PINECONE_ENVIRONMENT=us-east-1
+   PINECONE_INDEX_NAME=diligent-33
+
+   # Ollama
    OLLAMA_MODEL=llama2
+   OLLAMA_BASE_URL=http://localhost:11434
    ```
+
+Security note: Do NOT commit `.env`. A `.gitignore` is provided.
 
 ## Usage
 
-### Start the Application
+### Start VERONICA
 
 ```powershell
 # Make sure Ollama is running (it should auto-start)
@@ -76,12 +82,12 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-### Using the Application
+### Use the app
 
 1. **Upload Documents**: 
    - Click "Browse files" in the sidebar
    - Select one or more PDF or DOCX files
-   - Click "Process Documents"
+   - Click "Process Documents" to ingest
 
 2. **Ask Questions**:
    - Type your question in the chat input
@@ -103,8 +109,7 @@ VERONICA/
 ├── config.py               # Configuration settings
 ├── requirements.txt        # Python dependencies
 ├── .env.example           # Environment variables template
-├── .env                   # Your actual environment variables (not in git)
-├── .gitignore            # Git ignore rules
+├── .gitignore             # Git ignore rules (keeps .env out of git)
 └── uploads/              # Uploaded documents (created automatically)
 ```
 
@@ -126,10 +131,10 @@ VERONICA/
 
 Edit `config.py` to customize:
 
-- `CHUNK_SIZE`: Size of text chunks (default: 1000)
-- `CHUNK_OVERLAP`: Overlap between chunks (default: 200)
-- `EMBEDDING_MODEL`: HuggingFace model for embeddings
-- `OLLAMA_MODEL`: Which Ollama model to use (llama2, mistral, etc.)
+- `CHUNK_SIZE` (default: 1000)
+- `CHUNK_OVERLAP` (default: 200)
+- `EMBEDDING_MODEL` (default: sentence-transformers/all-MiniLM-L6-v2)
+- `OLLAMA_MODEL` (e.g., llama2, mistral)
 
 ## Available Ollama Models
 
@@ -165,21 +170,21 @@ ollama serve
 
 ## Advanced Usage
 
-### Using Different LLM Models
+### Use different LLM models
 
 Edit `.env`:
 ```
 OLLAMA_MODEL=mistral  # or codellama, llama2:13b, etc.
 ```
 
-### Adjusting Retrieval Settings
+### Adjust retrieval settings
 
 In `vector_store.py`, modify the `get_retriever()` method:
 ```python
 return self.vectorstore.as_retriever(search_kwargs={"k": 6})  # Retrieve more chunks
 ```
 
-### Custom Prompts
+### Custom prompts
 
 Edit the prompt template in `llm_manager.py` to change how the AI responds.
 
@@ -203,4 +208,4 @@ For issues or questions:
 
 ---
 
-Built with ❤️ for your AI assignment
+Built with ❤️ – VERONICA
